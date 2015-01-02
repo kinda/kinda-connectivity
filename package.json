@@ -19,9 +19,9 @@
   "dependencies": {
     "co": "^3.1.0",
     "co-wait": "0.0.0",
-    "kinda-config": "kinda/kinda-config",
-    "kinda-http-client": "kinda/kinda-http-client",
-    "kinda-object": "kinda/kinda-object",
-    "kinda-util": "kinda/kinda-util"
+    "kinda-config": "^0.2.2",
+    "kinda-http-client": "^0.1.0",
+    "kinda-object": "^0.1.0",
+    "kinda-util": "^0.1.0"
   }
 }
