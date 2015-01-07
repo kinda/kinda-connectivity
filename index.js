@@ -46,7 +46,7 @@ var KindaConnectivity = KindaObject.extend('KindaConnectivity', function() {
         else
           yield wait(5000);
       }
-    }).catch(function(err) {
+    }.bind(this)).catch(function(err) {
       console.error(err.stack);
     });
   };
