@@ -46,7 +46,9 @@ var KindaConnectivity = KindaObject.extend('KindaConnectivity', function() {
         else
           yield wait(5000);
       }
-    }).call(this);
+    }).catch(function(err) {
+      console.error(err.stack);
+    });
   };
 
   this.ping = function *() {

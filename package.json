@@ -17,7 +17,7 @@
   "author": "Manuel Vila <mvila@3base.com>",
   "license": "MIT",
   "dependencies": {
-    "co": "^3.1.0",
+    "co": "^4.1.0",
     "co-wait": "0.0.0",
     "kinda-config": "^0.2.2",
     "kinda-http-client": "^0.1.0",
