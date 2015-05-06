@@ -9,8 +9,6 @@ var httpClient = require('kinda-http-client').create();
 
 var KindaConnectivity = KindaObject.extend('KindaConnectivity', function() {
   this.setCreator(function(pingURL) {
-    if (!pingURL) pingURL = config.pingURL;
-    if (!pingURL) throw new Error('pingURL is missing');
     this.pingURL = pingURL;
   });
 
@@ -71,5 +69,21 @@ var KindaConnectivity = KindaObject.extend('KindaConnectivity', function() {
     return isOnline;
   };
 });
+
+var originalCreate = KindaConnectivity.create;
+KindaConnectivity.create = function(pingURL) {
+  if (!pingURL) pingURL = config.pingURL;
+  if (!pingURL) throw new Error('pingURL is missing');
+  var instances = global.__kindaConnectivityInstances__;
+  if (!instances) {
+    instances = global.__kindaConnectivityInstances__ = {};
+  }
+  var instance = instances[pingURL];
+  if (!instance) {
+    instance = originalCreate.call(this, pingURL);
+    instances[pingURL] = instance;
+  }
+  return instance;
+};
 
 module.exports = KindaConnectivity;
