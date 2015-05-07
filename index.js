@@ -31,10 +31,13 @@ var KindaConnectivity = KindaObject.extend('KindaConnectivity', function() {
   });
 
   this.monitor = function() {
+    if (this.isMonitoring) return;
+
     if (process.browser) {
       window.addEventListener('online', this.ping.bind(this));
       window.addEventListener('offline', this.ping.bind(this));
     }
+
     co(function *() {
       while (true) {
         var isOnline = yield this.ping();
@@ -46,6 +49,8 @@ var KindaConnectivity = KindaObject.extend('KindaConnectivity', function() {
     }.bind(this)).catch(function(err) {
       console.error(err.stack);
     });
+
+    this.isMonitoring = true;
   };
 
   this.ping = function *() {
