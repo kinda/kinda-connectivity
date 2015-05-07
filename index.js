@@ -26,7 +26,7 @@ var KindaConnectivity = KindaObject.extend('KindaConnectivity', function() {
 
   Object.defineProperty(this, 'isOffline', {
     get: function() {
-      return !this._isOnline;
+      return this._isOnline != null ? !this._isOnline : undefined;
     }
   });
 
@@ -35,7 +35,6 @@ var KindaConnectivity = KindaObject.extend('KindaConnectivity', function() {
       window.addEventListener('online', this.ping.bind(this));
       window.addEventListener('offline', this.ping.bind(this));
     }
-
     co(function *() {
       while (true) {
         var isOnline = yield this.ping();
