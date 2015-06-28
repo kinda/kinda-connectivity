@@ -57,14 +57,17 @@ let KindaConnectivity = KindaObject.extend('KindaConnectivity', function() {
     let isOnline;
     if (process.browser && !navigator.onLine) {
       isOnline = false;
+      console.log('!navigator.onLine'); // <----
     } else {
       try {
+        console.log('httpClient.get', this.url); // <----
         let result = yield httpClient.get({
           url: this.url,
           timeout: 10000
         });
         isOnline = result.statusCode === 200;
       } catch (err) {
+        console.log(err.message); // <----
         isOnline = false;
       }
     }
