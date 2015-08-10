@@ -1,10 +1,9 @@
 'use strict';
 
 let _ = require('lodash');
-let co = require('co');
-let wait = require('co-wait');
 let KindaObject = require('kinda-object');
 let KindaEventManager = require('kinda-event-manager');
+let util = require('kinda-util').create();
 let httpClient = require('kinda-http-client').create();
 
 let KindaConnectivity = KindaObject.extend('KindaConnectivity', function() {
@@ -41,25 +40,25 @@ let KindaConnectivity = KindaObject.extend('KindaConnectivity', function() {
       window.addEventListener('offline', this.ping.bind(this));
     }
 
-    co(function *() {
+    (async function() {
       while (true) {
-        let isOnline = yield this.ping();
-        yield wait(isOnline ? 30000 : 5000);
+        let isOnline = await this.ping();
+        await util.timeout(isOnline ? 30000 : 5000);
       }
-    }.bind(this)).catch(function(err) {
+    }).call(this).catch(function(err) {
       console.error(err.stack || err);
     });
 
     this.isMonitoring = true;
   };
 
-  this.ping = function *() {
+  this.ping = async function() {
     let isOnline;
     if (process.browser && !navigator.onLine) {
       isOnline = false;
     } else {
       try {
-        let result = yield httpClient.get({
+        let result = await httpClient.get({
           url: this.url,
           timeout: 10000
         });
