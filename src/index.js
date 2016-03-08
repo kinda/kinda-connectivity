@@ -43,7 +43,7 @@ let KindaConnectivity = KindaObject.extend('KindaConnectivity', function() {
     (async function() {
       while (true) {
         let isOnline = await this.ping();
-        await util.timeout(isOnline ? 30000 : 5000);
+        await util.timeout(isOnline ? 30000 : 15000);
       }
     }).call(this).catch(function(err) {
       console.error(err.stack || err);
