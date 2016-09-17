@@ -21,7 +21,11 @@ let KindaConnectivity = KindaObject.extend('KindaConnectivity', function() {
     set(isOnline) {
       if (this._isOnline !== isOnline) {
         this._isOnline = isOnline;
-        this.emit('didChange', isOnline);
+        try {
+          this.emit('didChange', isOnline);
+        } catch (err) {
+          console.error(err.stack || err);
+        }
       }
     }
   });
@@ -41,15 +45,15 @@ let KindaConnectivity = KindaObject.extend('KindaConnectivity', function() {
     }
 
     (async function() {
+      this.isMonitoring = true;
       while (true) {
         let isOnline = await this.ping();
         await util.timeout(isOnline ? 30000 : 15000);
       }
     }).call(this).catch(function(err) {
       console.error(err.stack || err);
+      this.isMonitoring = false;
     });
-
-    this.isMonitoring = true;
   };
 
   this.ping = async function() {
